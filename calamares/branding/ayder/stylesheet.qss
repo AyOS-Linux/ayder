@@ -1,0 +1,470 @@
+/*
+ * Ayder — stylesheet.qss
+ *
+ * Тёмная тема Calamares 3.4.3. Calamares читает файл из каталога брендинга
+ * (branding/ayder/stylesheet.qss) и вешает его на всё окно установщика.
+ *
+ * Селекторы по objectName взяты из C++ кода Calamares (нажмите About ->
+ * Debug -> Widget Tree, чтобы увидеть их вживую):
+ *   #mainApp #sidebarApp #logoApp #view-button-back/next/cancel
+ *   #exec-progress #exec-message #slideshow #aboutButton #debugButton
+ *
+ * Пути к svg — АБСОЛЮТНЫЕ: строка QSS отдаётся в setStyleSheet() как текст,
+ * и Qt не может разрешить относительный url() относительно файла брендинга.
+ * Раскладка по /etc/calamares/ — стандартная (см. README).
+ */
+
+/* ─── База: цвет текста и фон окна ─────────────────────────────────── */
+
+QWidget {
+    color: #e6eaee;
+}
+
+#mainApp {
+    background-color: #1e2227;
+}
+
+/* Фон сайдбара. Дублирует SidebarBackground из branding.desc: у сайдбара
+ * есть собственный palette-рендер, но и QSS-фон здесь не помешает. */
+#sidebarApp {
+    background-color: #171a1e;
+}
+
+#exec-message {
+    color: #9aa3ab;
+}
+
+/* ─── Кнопки ───────────────────────────────────────────────────────── */
+
+QPushButton {
+    background-color: #2a3037;
+    border: 1px solid #3d454d;
+    border-radius: 4px;
+    padding: 6px 16px;
+    min-height: 18px;
+    color: #e6eaee;
+}
+
+QPushButton:hover {
+    background-color: #333a42;
+    border-color: #4a535c;
+}
+
+QPushButton:pressed {
+    background-color: #20242a;
+}
+
+QPushButton:disabled {
+    background-color: #23282e;
+    border-color: #2c3238;
+    color: #6b7480;
+}
+
+QPushButton:focus {
+    border-color: #e88b2a;
+}
+
+/* Next — главная кнопка, оранжевый акцент */
+#view-button-next {
+    background-color: #e88b2a;
+    border-color: #e88b2a;
+    color: #17130a;
+    font-weight: 600;
+}
+
+#view-button-next:hover {
+    background-color: #f29a3f;
+    border-color: #f29a3f;
+}
+
+#view-button-next:pressed {
+    background-color: #cf7a22;
+    border-color: #cf7a22;
+}
+
+#view-button-next:disabled {
+    background-color: #3a3f45;
+    border-color: #3a3f45;
+    color: #767d85;
+}
+
+/* Quit — приглушённая */
+#view-button-cancel {
+    background-color: transparent;
+    border-color: transparent;
+    color: #9aa3ab;
+}
+
+#view-button-cancel:hover {
+    background-color: #2a3037;
+    border-color: #3d454d;
+    color: #e6eaee;
+}
+
+/* Кнопки внутри сайдбара (About / Debug) — плоские, без своего фона */
+#sidebarApp QPushButton {
+    background-color: transparent;
+    border: none;
+    padding: 4px 8px;
+}
+
+#sidebarApp QPushButton:hover {
+    background-color: #262b31;
+    border-radius: 4px;
+}
+
+QToolButton {
+    background-color: #2a3037;
+    border: 1px solid #3d454d;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #e6eaee;
+}
+
+QToolButton:hover {
+    background-color: #333a42;
+}
+
+/* ─── Поля ввода ───────────────────────────────────────────────────── */
+
+QLineEdit,
+QPlainTextEdit,
+QTextEdit {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    padding: 5px 8px;
+    color: #e6eaee;
+    selection-background-color: #e88b2a;
+    selection-color: #17130a;
+}
+
+QLineEdit:focus,
+QPlainTextEdit:focus,
+QTextEdit:focus {
+    border-color: #e88b2a;
+}
+
+QLineEdit:disabled {
+    background-color: #20242a;
+    color: #6b7480;
+}
+
+QComboBox {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    padding: 4px 8px;
+    min-height: 20px;
+    color: #e6eaee;
+}
+
+QComboBox:hover {
+    border-color: #4a535c;
+}
+
+QComboBox:focus {
+    border-color: #e88b2a;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+    width: 22px;
+    border: none;
+    background: transparent;
+}
+
+QComboBox::down-arrow {
+    image: url(/etc/calamares/branding/ayder/arrow-down.svg);
+    width: 12px;
+    height: 12px;
+}
+
+/* Выпадающий список */
+QComboBox QAbstractItemView {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    color: #e6eaee;
+    selection-background-color: #e88b2a;
+    selection-color: #17130a;
+    outline: 0;
+}
+
+QSpinBox,
+QDoubleSpinBox {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #e6eaee;
+}
+
+QSpinBox:focus,
+QDoubleSpinBox:focus {
+    border-color: #e88b2a;
+}
+
+QSpinBox::up-button,
+QDoubleSpinBox::up-button,
+QSpinBox::down-button,
+QDoubleSpinBox::down-button {
+    background: transparent;
+    border: none;
+    width: 18px;
+}
+
+QSpinBox::up-arrow,
+QDoubleSpinBox::up-arrow {
+    image: url(/etc/calamares/branding/ayder/arrow-up.svg);
+    width: 10px;
+    height: 10px;
+}
+
+QSpinBox::down-arrow,
+QDoubleSpinBox::down-arrow {
+    image: url(/etc/calamares/branding/ayder/arrow-down.svg);
+    width: 10px;
+    height: 10px;
+}
+
+/* ─── Чекбоксы и радиокнопки ───────────────────────────────────────── */
+
+QCheckBox,
+QRadioButton {
+    spacing: 8px;
+    color: #e6eaee;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #4a535c;
+    border-radius: 3px;
+    background-color: #262b31;
+}
+
+QCheckBox::indicator:hover {
+    border-color: #e88b2a;
+}
+
+QCheckBox::indicator:checked {
+    background-color: #e88b2a;
+    border-color: #e88b2a;
+    image: url(/etc/calamares/branding/ayder/check.svg);
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: #f29a3f;
+    border-color: #f29a3f;
+}
+
+QCheckBox::indicator:disabled {
+    background-color: #20242a;
+    border-color: #2f353b;
+}
+
+QCheckBox:disabled,
+QRadioButton:disabled {
+    color: #6b7480;
+}
+
+QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #4a535c;
+    border-radius: 9px;
+    background-color: #262b31;
+}
+
+QRadioButton::indicator:checked {
+    background-color: #e88b2a;
+    border-color: #e88b2a;
+}
+
+/* ─── Списки и деревья ─────────────────────────────────────────────── */
+
+QListView,
+QTreeView,
+QTableView {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    alternate-background-color: #2a3037;
+    color: #e6eaee;
+    selection-background-color: #e88b2a;
+    selection-color: #17130a;
+    outline: 0;
+}
+
+QListView::item,
+QTreeView::item,
+QTableView::item {
+    padding: 4px 8px;
+    min-height: 20px;
+    border-radius: 3px;
+}
+
+QListView::item:hover,
+QTreeView::item:hover,
+QTableView::item:hover {
+    background-color: #313841;
+}
+
+QListView::item:selected,
+QTreeView::item:selected,
+QTableView::item:selected {
+    background-color: #e88b2a;
+    color: #17130a;
+}
+
+/* Сайдбар: список шагов рисует собственный делегат (ProgressTreeDelegate),
+ * здесь только фон панели, чтобы не перекрыть его правилом QListView выше. */
+#sidebarApp QListView {
+    background-color: #171a1e;
+    border: none;
+    border-radius: 0;
+    color: #9aa3ab;
+}
+
+QHeaderView::section {
+    background-color: #1e2227;
+    color: #9aa3ab;
+    border: none;
+    border-right: 1px solid #3a4148;
+    border-bottom: 1px solid #3a4148;
+    padding: 5px 8px;
+    font-weight: 600;
+}
+
+/* ─── Прогресс установки ───────────────────────────────────────────── */
+
+QProgressBar {
+    background-color: #262b31;
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    text-align: center;
+    color: #e6eaee;
+    min-height: 18px;
+}
+
+QProgressBar::chunk {
+    background-color: #e88b2a;
+    border-radius: 3px;
+}
+
+#exec-progress {
+    min-height: 22px;
+}
+
+#slideshow {
+    background-color: #1e2227;
+}
+
+QTabWidget::pane {
+    border: 1px solid #3a4148;
+    background-color: #1e2227;
+    top: -1px;
+}
+
+/* ─── Группы, скроллбары, подсказки, меню, диалоги ─────────────────── */
+
+QGroupBox {
+    border: 1px solid #3a4148;
+    border-radius: 4px;
+    margin-top: 10px;
+    padding-top: 14px;
+    color: #9aa3ab;
+    font-weight: 600;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    left: 10px;
+    padding: 0 4px;
+}
+
+QScrollBar:vertical {
+    background-color: #1e2227;
+    width: 12px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #3a4148;
+    border-radius: 5px;
+    min-height: 24px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #4a535c;
+}
+
+QScrollBar:horizontal {
+    background-color: #1e2227;
+    height: 12px;
+    margin: 0;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #3a4148;
+    border-radius: 5px;
+    min-width: 24px;
+    margin: 2px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: #4a535c;
+}
+
+QScrollBar::add-line,
+QScrollBar::sub-line {
+    width: 0;
+    height: 0;
+    border: none;
+    background: transparent;
+}
+
+QScrollBar::add-page,
+QScrollBar::sub-page {
+    background: transparent;
+}
+
+QToolTip {
+    background-color: #2a3037;
+    color: #e6eaee;
+    border: 1px solid #4a535c;
+    padding: 4px 6px;
+}
+
+QMenu {
+    background-color: #262b31;
+    color: #e6eaee;
+    border: 1px solid #3a4148;
+    padding: 4px;
+}
+
+QMenu::item {
+    background: transparent;
+    padding: 5px 24px 5px 12px;
+    border-radius: 3px;
+}
+
+QMenu::item:selected {
+    background-color: #e88b2a;
+    color: #17130a;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #3a4148;
+    margin: 4px 6px;
+}
+
+/* Диалоги — отдельные окна, стиль окна на них не наследуется сам */
+QDialog {
+    background-color: #1e2227;
+    color: #e6eaee;
+}

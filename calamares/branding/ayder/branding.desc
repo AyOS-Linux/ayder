@@ -1,0 +1,34 @@
+# Ayder — branding.desc
+# Формат сверён с официальным примером (src/branding/default/branding.desc, v3.4.3).
+# componentName ОБЯЗАН совпадать с именем каталога (branding/ayder),
+# иначе Calamares завершится с ошибкой.
+---
+componentName:  ayder
+
+strings:
+    componentName:         ayder
+    productName:           AyOS
+    shortProductName:      AyOS
+    shortVersion:          26.2.1
+    versionedName:         AyOS 26.2.1
+    shortVersionedName:    AyOS 26.2.1
+    bootloaderEntryName:   AyOS
+
+images:
+    productLogo:           "ayone-mark-512.png"
+    productIcon:           "ayone-mark-256.png"
+    productWelcome:        "slide3.png"
+
+slideshow:               "show.qml"
+slideshowAPI:            2
+
+# Цвета сайдбара: их же рисует ProgressTreeDelegate (собственный C++-рендер),
+# QSS их не заменяет - значения здесь и в stylesheet.qss должны совпадать.
+style:
+    SidebarBackground:        "#171a1e"
+    SidebarText:              "#9aa3ab"
+    SidebarTextCurrent:       "#17130a"
+    SidebarBackgroundCurrent: "#e88b2a"
+
+sidebar: widget,left
+navigation: widget,bottom

@@ -10,13 +10,20 @@
 и страница выбора пакетов убраны — на summary сразу Install, дальше ставится
 база + KDE.
 
+Первый шаг «Локаль» — это язык/регион **и часовой пояс**: карта TimeZoneWidget
+плюс выпадающие Region/Zone. Отдельного модуля `timezone` в Calamares 3.4.3
+нет, выбор пояса встроен в шаг `locale`. Стартует с пояса живой системы
+(`useSystemTimezone: true` в `modules/locale.conf`), а в фазе exec модуль
+`locale` пишет в цель `/etc/localtime` и `/etc/timezone`.
+
 ## Структура
 
 ```
 calamares/
 ├── settings.conf               # последовательность: locale, partition, users, summary
 ├── modules/
-│   ├── ayospacstrap/           # установка pacstrap'ом (базис + набор KDE)
+│   ├── locale.conf             # язык, регион и ЧАСОВОЙ ПОЯС (пояс из live)
+│   ├── shellprocess_pacstrap.conf  # установка: обычный pacstrap (базис + KDE)
 │   ├── shellprocess_ayos_osrelease.conf   # /etc/os-release (everyday)
 │   ├── shellprocess_ayos_edition.conf     # пакеты KDE + ядро в chroot
 │   └── …                       # partition, users, mount, bootloader, …
@@ -32,7 +39,13 @@ calamares/
 - **Только 4 шага**: локаль, диск, пользователь, установка — без welcome,
   клавиатуры и выбора пакетов (packagechooser, netinstall и packages удалены).
 - **Только KDE**: редакция зашита как `everyday` в `settings.conf`,
-  `shellprocess_ayos_osrelease.conf` и `ayospacstrap.conf`.
+  `shellprocess_ayos_osrelease.conf` и `shellprocess_pacstrap.conf`.
+- **Обычный pacstrap**: установка — штатный модуль `shellprocess`
+  (`shellprocess_pacstrap.conf`, `dontChroot: true`), без своего Python-модуля
+  `ayospacstrap`. Скрипт делает то же самое: pacman-key → быстрый mirror →
+  `pacstrap ${ROOT} …` → sudoers для wheel → хелперы `ayos-*` и ассеты в цель →
+  патчи `pacman.conf`/`makepkg.conf`. Цена отказа от своего модуля: у
+  `shellprocess` нет прогресса, полоса установки во время pacstrap не двигается.
 - **Окно без рамки**: `windowExpanding: fullscreen` в `branding.desc` —
   Calamares 3.4.3 сам включает `Qt::FramelessWindowHint` и разворачивает
   окно (CalamaresApplication::initViewSteps): сверху только установщик,
@@ -55,6 +68,10 @@ sudo cp -r calamares/* /etc/calamares/
 ## Зависимости
 
 - Calamares 3.4.3 (Qt6, собран с `qt6-svg` — нужны для картинок в QSS).
-- Скрипты `ayos-edition` и `ayos-osrelease` в `/usr/local/bin/` целевой
-  системы — они приходят из ayosiso (`releng/airootfs/usr/local/bin/`);
-  без них `shellprocess@ayos_*` завершит установку ошибкой.
+- Скрипты `ayos-edition` и `ayos-osrelease` в `/usr/local/bin/` **живого
+  корня**: их же `shellprocess@pacstrap` копирует в `/usr/local/bin/` цели,
+  а дальше `shellprocess@ayos_*` исполняет уже там. Приходят они из ayosiso
+  (`releng/airootfs/usr/local/bin/`); без них `shellprocess@ayos_*`
+  завершит установку ошибкой.
+- Часовой пояс в цели: `tzdata` приходит зависимостью `base → glibc → tzdata`,
+  поэтому `SetTimezoneJob` (модуль `locale`) находит `/usr/share/zoneinfo`.

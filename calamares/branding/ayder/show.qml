@@ -1,6 +1,6 @@
 // Ayder — слайдшоу Calamares (slideshowAPI: 2)
-// Одна страница: тёмный слайд с логотипом + минимальный fade-in
-// при активации (activatedInCalamares выставляет Calamares на exec-фазе).
+// Одна страница: тёмный слайд с логотипом. Плавное появление на exec-фазе:
+// fade + лёгкий zoom, 650 мс (activatedInCalamares выставляет Calamares).
 import QtQuick 2.0;
 import calamares.slideshow 1.0;
 
@@ -17,9 +17,15 @@ Presentation
             width: parent.width
             fillMode: Image.PreserveAspectFit
             anchors.centerIn: parent
+
             opacity: presentation.activatedInCalamares ? 1 : 0
+            scale: presentation.activatedInCalamares ? 1 : 0.96
+
             Behavior on opacity {
-                NumberAnimation { duration: 400; easing.type: Easing.OutQuad }
+                NumberAnimation { duration: 650; easing.type: Easing.OutCubic }
+            }
+            Behavior on scale {
+                NumberAnimation { duration: 650; easing.type: Easing.OutCubic }
             }
         }
     }

@@ -17,10 +17,14 @@ strings:
 images:
     productLogo:           "ayone-mark-512.png"
     productIcon:           "ayone-mark-256.png"
-    productWelcome:        "slide3.png"
 
 slideshow:               "show.qml"
 slideshowAPI:            2
+
+# Окно без рамки: fullscreen -> Calamares сам ставит Qt::FramelessWindowHint
+# и разворачивает окно (CalamaresApplication::initViewSteps, проверено по
+# исходникам 3.4.3) — сверху только установщик, без панели и обводки.
+windowExpanding: fullscreen
 
 # Цвета сайдбара: их же рисует ProgressTreeDelegate (собственный C++-рендер),
 # QSS их не заменяет - значения здесь и в stylesheet.qss должны совпадать.

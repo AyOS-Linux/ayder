@@ -16,12 +16,34 @@
 
 /* ─── База: цвет текста и фон окна ─────────────────────────────────── */
 
+/* Универсальное правило: СВЕТЛЫЙ ТЕКСТ + ТЁМНЫЙ ФОН на ВСЕХ виджетах.
+ *
+ * Без background-color здесь Calamares оставался светлым там, где увидит
+ * палитра приложения (Qt НЕ перекрашивает палитру из QSS): viewport'ы
+ * QScrollArea (страницы «Раздел» и «Сводка»), summary-метки с
+ * setAutoFillBackground(), чипы DeviceInfoWidget, попап QComboBox,
+ * MessageBox'ы. Там был белый фон и текст #e6eaee — не виден.
+ * Правило с background-color заставляет Qt выставить WA_StyledBackground
+ * и рисовать QSS-фон ВМЕСТО палитрового autofill.
+ *
+ * Порядок каскада Qt = CSS: при равной специфичности побеждает
+ * ПОСЛЕДНЕЕ правило, поэтому все более конкретные правила ниже
+ * (QPushButton, QComboBox, #sidebarApp и т.д.) сохраняют свои цвета —
+ * проверено оффскрин-рендером (qsstest).
+ */
 QWidget {
     color: #e6eaee;
+    background-color: #1e2227;
 }
 
 #mainApp {
     background-color: #1e2227;
+}
+
+/* Логотип в сайдбаре: без своего фона, чтобы не выделяться пятном
+ * на #sidebarApp (иначе универсальное правило QWidget зальёт его #1e2227). */
+#logoApp {
+    background-color: transparent;
 }
 
 /* Фон сайдбара. Дублирует SidebarBackground из branding.desc: у сайдбара
